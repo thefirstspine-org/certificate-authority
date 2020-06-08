@@ -101,4 +101,4 @@ do
 done
 ```
 
-When a request needs to be done or verificated, we fetch the last certificate or private key & we cache it for one minute.
+These generated pairs are copied & loaded during build to ensure that there is no human access to these credentials.
