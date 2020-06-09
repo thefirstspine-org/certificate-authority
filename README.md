@@ -31,7 +31,7 @@ As part of TFS Platform, the validation service will use environment variable.
 
 | Environement key | Summary |
 |-|-|
-| PRIVATE_KEY | Auth net service URL |
+| PRIVATE_KEY | The pivate key to use to validate incoming requests |
 
 ## Service documentation
 
@@ -101,4 +101,4 @@ do
 done
 ```
 
-These generated pairs are copied & loaded during build to ensure that there is no human access to these credentials.
+These generated pairs are copied & loaded during the build to ensure that there is no human access to these credentials. Moreover, all the credentials are updated in the Appengines every day at 2:00 AM UTC and stored in environement variables.
