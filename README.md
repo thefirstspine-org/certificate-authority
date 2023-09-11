@@ -57,16 +57,13 @@ In order to use the CLI, the dependency should be installed globally.
 
 Generates files to be validated in the services.
 
-Example: `--mode=pair --key=private.key --certificate=public.cert --force`
+Example: `-m=pair -k=private.key -c=public.cert`
 
 **Options:**
 
-- `--help` Displays help.
-- `--version` Displays the version number.
-- `--mode=` Defines what's to be generated. `"ask"` or `"pair"`. If not provided, a prompt will be displayed.
-- `--key=` The private key path. If not provided, a prompt will be displayed. If the file already exists, a confirmation will be asked.
-- `--certificate=` The public certificate path. If not provided, a prompt will be displayed. If the file already exists, a confirmation will be asked.
-- `--force` Once provided, the confirmation prompt will be ignored.
+- `-m` Defines what's to be generated. `"ask"` or `"pair"`. If not provided, a prompt will be displayed.
+- `-k` The private key path. If not provided, a prompt will be displayed. If the file already exists, a confirmation will be asked.
+- `-c` The public certificate path. If not provided, a prompt will be displayed. If the file already exists, a confirmation will be asked.
 
 ## How to use
 
