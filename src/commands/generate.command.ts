@@ -18,7 +18,7 @@ export class GenerateCommand {
 
     // Validating mode
     const modesMap = {
-      'pair': this.generatePair.bind(this),
+      'pair': this.generatePairMode.bind(this),
     };
     if (!modesMap[args.mode]) {
       console.log(`Unhandled mode "${args.mode}"`);
@@ -32,7 +32,7 @@ export class GenerateCommand {
    * Call for a "pair" generation mode.
    * @param args
    */
-  async generatePair(args: IGenerateCommandPairsArgs) {
+  private async generatePairMode(args: IGenerateCommandPairsArgs) {
     // Getting args
     const key: string|undefined = args.key;
     const certificate: string|undefined = args.certificate;
@@ -49,7 +49,25 @@ export class GenerateCommand {
 
     // Generating pair
     console.log('Generating pair...');
-    const result = crypto.generateKeyPairSync(
+    const result = this.generatePair();
+    
+    // Write the ertificates
+    fs.writeFileSync(key, result.privateKey);
+    console.log(`Generated key in ${key}`);
+    fs.writeFileSync(certificate, result.certificate);
+    console.log(`Generated certificate in ${certificate}`);
+
+    // ..and we're done!
+    console.log(`done.`);
+    process.exit();
+  }
+
+  /**
+   * Generates a pair with crypto
+   * @returns The generated pair
+   */
+  public generatePair(): IPair {
+    const pair = crypto.generateKeyPairSync(
       'rsa',
       {
         modulusLength: 2048,
@@ -63,27 +81,10 @@ export class GenerateCommand {
         }
       }
     );
-
-    // We have to test against our validation service
-    // This will prevent to have false certificates to block the services
-    console.log('Testing pair...');
-    process.env.PRIVATE_KEY = result.privateKey;
-    const challengeResult = validatorService.challenge(result.publicKey);
-    if (!challengeResult) {
-      console.log(`Challenge failed.`);
-      process.exit(1);
+    return {
+      privateKey: pair.privateKey,
+      certificate: pair.publicKey,
     }
-    console.log('Challenge succeed.');
-    
-    // Write the ertificates
-    fs.writeFileSync(key, result.privateKey);
-    console.log(`Generated key in ${key}`);
-    fs.writeFileSync(certificate, result.publicKey);
-    console.log(`Generated certificate in ${certificate}`);
-
-    // ..and we're done!
-    console.log(`done.`);
-    process.exit();
   }
 }
 
@@ -94,4 +95,9 @@ export interface IGenerateCommandArgs {
 export interface IGenerateCommandPairsArgs {
   key: string|undefined;
   certificate: string|undefined;
+}
+
+export interface IPair {
+  certificate: string;
+  privateKey: string;
 }
