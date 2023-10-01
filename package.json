@@ -11,10 +11,10 @@
     "minimist": "^1.2.8"
   },
   "devDependencies": {
-    "@types/node": "^20.6.0",
-    "@types/node-fetch": "^2.6.4",
-    "eslint": "^8.49.0",
-    "rimraf": "^5.0.1",
+    "@types/node": "^20.8.0",
+    "@types/node-fetch": "^2.6.6",
+    "eslint": "^8.50.0",
+    "rimraf": "^5.0.5",
     "typescript": "^5.2.2"
   },
   "scripts": {
