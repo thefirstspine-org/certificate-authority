@@ -9,12 +9,12 @@ export class ValidatorService {
   /**
    * Challenge the certificate against the private key.
    * @param certificate The decoded certificate provided by the request
-   * @param privateKey The provate key - if not provided, uses the process.env.PRIVATE_KEY value
+   * @param privateKey The private key - if not provided, uses the process.env.PRIVATE_KEY value
    */
   challenge(certificate: string, privateKey: string|undefined = undefined): boolean {
     // Here we ensure that we do not have any escaped '\n' character left
-    const publicKeyStr: string = certificate.replace(/\\n/gm, '\n');
-    const privateKeyStr: string = privateKey != undefined ? privateKey.replace(/\\n/gm, '\n') : process.env.PRIVATE_KEY.replace(/\\n/gm, '\n');
+    const publicKeyStr: string = this.sanatize(certificate);
+    const privateKeyStr: string = privateKey != undefined ? this.sanatize(privateKey) : this.sanatize(process.env.PRIVATE_KEY);
 
     try {
       // Create the challenge
@@ -29,6 +29,10 @@ export class ValidatorService {
     } catch (exception) {}
 
     return false;
+  }
+
+  private sanatize(input: string): string {
+    return input.replace(/\\n/gm, '\n');
   }
 
 }
