@@ -50,6 +50,13 @@ export class GenerateCommand {
     // Generating pair
     console.log('Generating pair...');
     const result = this.generatePair();
+
+    // Validate pairs
+    console.log('Passing challenge...');
+    if(!validatorService.challenge(result.certificate, result.privateKey)) {
+      console.log(`Pair doesn't pass the challenge.`);
+      return;
+    }
     
     // Write the ertificates
     fs.writeFileSync(key, result.privateKey);
