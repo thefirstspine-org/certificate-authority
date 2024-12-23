@@ -1,6 +1,6 @@
 {
   "name": "@thefirstspine/certificate-authority",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Self-signed certificate authority to automate & check secure layer for protected endpoints.",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
