@@ -2,12 +2,6 @@
 
 Self-signed certificate authority to automate & check secure layer for protected endpoints.
 
-## Install
-
-```bash
-npm i @thefirstspine/certificate-authority
-```
-
 ## Philosophy
 
 Here in TFS we strongly believe that services calls must be verified through private / public key pairs to ensure that the calls are from the good service: IPs are not sufficient for distributed service and DNS can be compromised.
@@ -25,15 +19,21 @@ INCOMING REQUEST                               REQUEST GUARD                    
 INCOMING REQUEST                               REQUEST GUARD                         PROTECTED RESOURCE
 ```
 
-## Configuration
+## Service documentation
+
+### Installation
+
+```bash
+npm i @thefirstspine/certificate-authority
+```
+
+### Configuration
 
 As part of TFS Platform, the validation service will use environment variable.
 
 | Environement key | Summary |
 |-|-|
 | PRIVATE_KEY | The pivate key to use to validate incoming requests |
-
-## Service documentation
 
 ### ValidatorService
 
@@ -51,13 +51,9 @@ Challenge the certificate against the private key.
 
 ## CLI documentation
 
-In order to use the CLI, the dependency should be installed globally.
-
-### tfs-ca-generate
-
 Generates files to be validated in the services.
 
-Example: `-m=pair -k=private.key -c=public.cert`
+Example: `npx @thefirstspine/certificate-authority -m=pair -k=private.key -c=public.cert`
 
 **Options:**
 
@@ -84,18 +80,3 @@ npm run lint
 ```bash
 npm publish
 ```
-
-# How it is used in the TFS Platform?
-
-In TFS we use GCP buckets along with Secret Manager to store these generated certificates:
-
-```bash
-for SERVICE in arena bots
-do
-  tfs-ca-generate --mode=pair --key=private.key --certificate=public.cert --force
-  gsutil cp public.cert gs://bucket-artefacts-eu/$SERVICE.cert
-  gcloud secrets versions add "secret-$SERVICE-private-key-eu" --data-file=private.key
-done
-```
-
-These generated pairs are copied & loaded during the build to ensure that there is no human access to these credentials. Moreover, all the credentials are updated in the Appengines every day at 2:00 AM UTC and stored in environement variables.
