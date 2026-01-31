@@ -1,6 +1,6 @@
 {
   "name": "@thefirstspine/certificate-authority",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "description": "Self-signed certificate authority to automate & check secure layer for protected endpoints.",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -11,7 +11,7 @@
     "minimist": "^1.2.8"
   },
   "devDependencies": {
-    "@types/node": "^25.0.10",
+    "@types/node": "^25.1.0",
     "eslint": "^9.9.1",
     "jest": "^30.2.0",
     "rimraf": "^6.1.2",
