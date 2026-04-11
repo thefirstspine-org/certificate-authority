@@ -11,10 +11,17 @@ export class ValidatorService {
    * @param certificate The decoded certificate provided by the request
    * @param privateKey The private key - if not provided, uses the process.env.PRIVATE_KEY value
    */
-  challenge(certificate: string, privateKey: string|undefined = undefined): boolean {
+  challenge(certificate: string, privateKey: string | undefined = undefined): boolean {
+    // Checking if the private key is set
+    const privateKeyInput = privateKey != undefined ? privateKey : process.env.PRIVATE_KEY;
+    if (typeof privateKeyInput !== 'string') {
+      console.log('Invalid private key provided. Please ensure the "PRIVATE_KEY" environment variable or the private key argument is a string.');
+      return false;
+    }
+
     // Here we ensure that we do not have any escaped '\n' character left
     const publicKeyStr: string = this.sanatize(certificate);
-    const privateKeyStr: string = privateKey != undefined ? this.sanatize(privateKey) : this.sanatize(process.env.PRIVATE_KEY);
+    const privateKeyStr: string = this.sanatize(privateKeyInput);
 
     try {
       // Create the challenge

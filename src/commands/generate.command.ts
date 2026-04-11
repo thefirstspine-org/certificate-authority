@@ -16,6 +16,11 @@ export class GenerateCommand {
   async start(args: IGenerateCommandArgs | (IGenerateCommandArgs & IGenerateCommandPairsArgs)) {
     console.log(`Certification generation toolkit`);
 
+    if (!args.mode) {
+      console.log('"[m]ode" is required.');
+      process.exit(1);
+    }
+
     // Validating mode
     const modesMap = {
       'pair': this.generatePairMode.bind(this),
